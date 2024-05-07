@@ -4,6 +4,13 @@ import QtQuick
 
 QtObject {
 
+    readonly property int width: 1440
+    readonly property int height: 1080
+    property bool isBigDesktopLayout: true
+    property bool isSmallDesktopLayout: false
+    property bool isMobileLayout: false
+    property bool isSmallLayout: false
+
     //In here you can store your custom colors
     //Maybe there is a way to do in C++?
     // Positive Theme Colors

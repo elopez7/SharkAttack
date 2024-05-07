@@ -30,7 +30,7 @@ Item{
                     font.pixelSize: 16
                     horizontalAlignment: Text.AlignRight
                     Layout.alignment: Qt.AlignRight | Qt.AlignVCenter
-                    placeholderText: qsTr("$0.00")
+                    placeholderText: activeFocus ? qsTr("") : qsTr("$0.00")
                     validator: DoubleValidator{
                         bottom: 0
                         decimals: 2

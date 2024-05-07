@@ -9,8 +9,10 @@ import SharkAttack.Controls
 ApplicationWindow {
     id: root
 
-    width: 1920
+    width: 1440
     height: 1080
+    minimumHeight: 500
+    minimumWidth: 250
     visible: true
     title: qsTr("Hello World")
 
@@ -44,59 +46,44 @@ ApplicationWindow {
             margins: 64
         }
 
-        AppHeader{
-            id: applicationHeader
-            anchors{
-                left : parent.left
-                right : parent.right
-                top: parent.top
-                bottom: parent.bottom
-                leftMargin: 128
-                rightMargin: 128
-                topMargin: 0
-                bottomMargin: 520
-            }
-            calculateButton.onClicked: {
-                root.calculateLoan();
-            }
-        }
+        ColumnLayout{
+            anchors.fill: parent
 
-        GridLayout {
-            id: l1
-            columns: 1
-            visible: false
-            anchors{
-                left: applicationHeader.left
-                right: applicationHeader.right
-                top: applicationHeader.bottom
-                bottom: parent.bottom
-                leftMargin: 0
-                rightMargin: 0
-                topMargin: 0
-                bottomMargin: 128
-            }
-            rowSpacing: 64
-            LayoutItemProxy { target: userInputs }
-            LayoutItemProxy { target: monthlyPayments }
-        }
 
-        GridLayout {
-            id: l2
-            columns: 2
-            visible: true
-            anchors{
-                left: applicationHeader.left
-                right: applicationHeader.right
-                top: applicationHeader.bottom
-                bottom: parent.bottom
-                leftMargin: 0
-                rightMargin: 0
-                topMargin: 0
-                bottomMargin: 128
+            GridLayout {
+                id: l1
+                Layout.preferredHeight: 4
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                columns: 1
+                visible: false
+                rowSpacing: 64
+                LayoutItemProxy { target: userInputs }
+                LayoutItemProxy { target: monthlyPayments }
             }
-            columnSpacing: 64
-            LayoutItemProxy { target: userInputs }
-            LayoutItemProxy { target: monthlyPayments }
+
+            GridLayout {
+                id: l2
+                Layout.preferredHeight: 4
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                columns: 2
+                visible: true
+                columnSpacing: 64
+                LayoutItemProxy { target: userInputs }
+                LayoutItemProxy { target: monthlyPayments }
+            }
+
+            SwipeView{
+                id: l3
+                visible: false
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                spacing: 16
+                currentIndex: 0
+                InputView{}
+                PaymentView{}
+            }
         }
     }
 
@@ -119,16 +106,38 @@ ApplicationWindow {
     }
     /***End of ItemProxies***/
 
-    onWidthChanged: {
-        if (width < 1200) {
-            l2.visible = false
-            l1.visible = true
-        } else {
-            l1.visible = false
-            l2.visible = true
-        }
+    Component.onCompleted: {
+        Theme.isBigDesktopLayout = Qt.binding( function(){
+            return root.width >= Theme.width && root.width >= root.height
+        })
+        Theme.isSmallDesktopLayout = Qt.binding( function(){
+            return root.width >= 647 && root.width < Theme.width && root.width >= root.height
+        })
+        Theme.isMobileLayout = Qt.binding( function(){
+            return root.width < root.height
+        })
+        Theme.isSmallLayout = Qt.binding( function(){
+            return root.width < 647 && root.width >= root.height
+        })
     }
 
+/*
+    onWidthChanged: {
+        if (isBigDesktopLayout || isSmallDesktopLayout) {
+            l1.visible = true
+            l2.visible = false
+            l3.visible = false
+        } else if(isMobileLayout){
+            l1.visible = false
+            l2.visible = true
+            l3.visible = false
+        } else if(isSmallLayout){
+            l1.visible = false
+            l2.visible = false
+            l3.visible = true
+        }
+    }
+*/
     function calculateLoan(){
         if(!userInputs.loanAmount || !userInputs.term || !userInputs.rate){
             return;
