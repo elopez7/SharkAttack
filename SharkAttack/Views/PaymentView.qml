@@ -20,7 +20,8 @@ Item {
         Label {
             id: paymentBreakdownLabel
             text: qsTr("Monthly Payment Breakdown")
-            font.pixelSize: 48
+            wrapMode: Text.WordWrap
+            font: Theme.desktopTitleFontObject
             horizontalAlignment: Text.AlignHCenter
             Layout.fillWidth: true
         }

@@ -18,6 +18,25 @@ ApplicationWindow {
 
     SystemTheme.theme: darkModeSwitch.checked ? SystemTheme.Dark : SystemTheme.Light
 
+    /***Start of ItemProxies
+      See GridLayouts l1, l2 and l3
+    ***/
+    InputView{
+        id: userInputs
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+        onLoanAmountChanged: root.calculateLoan()
+        onTermChanged: root.calculateLoan()
+        onRateChanged: root.calculateLoan()
+    }
+
+    PaymentView{
+        id: monthlyPayments
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+    }
+    /***End of ItemProxies***/
+
     header: ToolBar{
         SystemTheme.theme: SystemTheme.Dark
         RowLayout{
@@ -55,6 +74,7 @@ ApplicationWindow {
                 Layout.preferredHeight: 4
                 Layout.fillWidth: true
                 Layout.fillHeight: true
+                Layout.margins: 16
                 columns: 1
                 visible: false
                 rowSpacing: 64
@@ -92,8 +112,20 @@ ApplicationWindow {
                         spacing: 32
                         clip: true
 
+
                         Page {
                             title: qsTr("Input")
+                            background: Rectangle{
+                                color: SystemTheme.popupColor
+                                //radius: 90
+
+                                Behavior on color {
+                                    ColorAnimation {
+                                        duration: 150
+                                    }
+                                }
+                            }
+
                             LayoutItemProxy{
                                 target: userInputs
                                 anchors.fill: parent
@@ -101,6 +133,17 @@ ApplicationWindow {
                         }
                         Page {
                             title: qsTr("Payment Breakdown")
+                            background: Rectangle{
+                                color: SystemTheme.popupColor
+                                //radius: 90
+
+                                Behavior on color {
+                                    ColorAnimation {
+                                        duration: 150
+                                    }
+                                }
+                            }
+
                             LayoutItemProxy{
                                 target: monthlyPayments
                                 anchors.fill: parent
@@ -120,26 +163,57 @@ ApplicationWindow {
                 }
             }
         }
+        states:[
+            State{
+                name: "desktopLayout"
+                when: Theme.isBigDesktopLayout || Theme.isSmallDesktopLayout
+                PropertyChanges{
+                    target: l1
+                    visible: false
+                }
+                PropertyChanges{
+                    target: l2
+                    visible: true
+                }
+                PropertyChanges{
+                    target: l3
+                    visible: false
+                }
+            },
+            State{
+                name: "mobileLayout"
+                when: Theme.isMobileLayout
+                PropertyChanges{
+                    target: l1
+                    visible: true
+                }
+                PropertyChanges{
+                    target: l2
+                    visible: false
+                }
+                PropertyChanges{
+                    target: l3
+                    visible: false
+                }
+            },
+            State{
+                name: "smallLayout"
+                when: Theme.isSmallLayout
+                PropertyChanges{
+                    target: l1
+                    visible: false
+                }
+                PropertyChanges{
+                    target: l2
+                    visible: false
+                }
+                PropertyChanges{
+                    target: l3
+                    visible: true
+                }
+            }
+        ]
     }
-
-    /***Start of ItemProxies
-      See GridLayouts l1 and l2
-    ***/
-    InputView{
-        id: userInputs
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-        onLoanAmountChanged: root.calculateLoan()
-        onTermChanged: root.calculateLoan()
-        onRateChanged: root.calculateLoan()
-    }
-
-    PaymentView{
-        id: monthlyPayments
-        Layout.fillHeight: true
-        Layout.fillWidth: true
-    }
-    /***End of ItemProxies***/
 
     Component.onCompleted: {
         Theme.isBigDesktopLayout = Qt.binding( function(){
@@ -154,22 +228,6 @@ ApplicationWindow {
         Theme.isSmallLayout = Qt.binding( function(){
             return root.width < 647 && root.width >= root.height
         })
-    }
-
-    onWidthChanged: {
-        if (Theme.isBigDesktopLayout || Theme.isSmallDesktopLayout) {
-            l1.visible = false
-            l2.visible = true
-            l3.visible = false
-        } else if(Theme.isMobileLayout){
-            l1.visible = true
-            l2.visible = false
-            l3.visible = false
-        } else if(Theme.isSmallLayout){
-            l1.visible = false
-            l2.visible = false
-            l3.visible = true
-        }
     }
 
     function calculateLoan(){
