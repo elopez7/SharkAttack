@@ -19,7 +19,7 @@ Item {
         anchors.fill: parent
         Label {
             id: paymentBreakdownLabel
-            text: qsTr("Mothnly Payment Breakdown")
+            text: qsTr("Monthly Payment Breakdown")
             font.pixelSize: 48
             horizontalAlignment: Text.AlignHCenter
             Layout.fillWidth: true
@@ -58,7 +58,7 @@ Item {
                         id: totalAmount
                         text: qsTr("$" + totalAmountValue.toFixed(2))
                         anchors.fill: parent
-                        font.pixelSize: 32
+                        font: Theme.desktopSubtitleFontObject
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                     }
@@ -88,13 +88,13 @@ Item {
                         Label {
                             id: principalLabel
                             text: qsTr("Principal")
-                            font.pixelSize: 24
+                            font: Theme.desktopSubtitleFontObject
                         }
 
                         Label {
                             id: principalAmountLabel
                             text: qsTr("$" + principalValue.toFixed(2))
-                            font.pixelSize: 32
+                            font: Theme.desktopSubtitleFontObject
                             horizontalAlignment: Text.AlignRight
                             verticalAlignment: Text.AlignBottom
                         }
@@ -109,13 +109,13 @@ Item {
                         Label {
                             id: interestLabel
                             text: qsTr("Interest")
-                            font.pixelSize: 24
+                            font: Theme.mobileTitleFontObject
                         }
 
                         Label {
                             id: interestAmountLabel
                             text: qsTr("$"+interestValue.toFixed(2))
-                            font.pixelSize: 32
+                            font: Theme.desktopSubtitleFontObject
                             horizontalAlignment: Text.AlignRight
                             verticalAlignment: Text.AlignBottom
                         }
@@ -125,4 +125,119 @@ Item {
 
         }
     }
+    states:[
+        State {
+            name: "desktopLayout"
+            when: Theme.isBigDesktopLayout
+            PropertyChanges {
+                target: paymentBreakdownLabel
+                font: Theme.desktopTitleFontObject
+            }
+            PropertyChanges{
+                target: totalAmount
+                font: Theme.desktopTitleFontObject
+            }
+            PropertyChanges {
+                target: principalLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+            PropertyChanges {
+                target: principalAmountLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+            PropertyChanges {
+                target: interestLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+            PropertyChanges {
+                target: interestAmountLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+        },
+        State {
+            name: "smallDesktopLayout"
+            when: Theme.isSmallDesktopLayout
+            PropertyChanges {
+                target: paymentBreakdownLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+            PropertyChanges{
+                target: totalAmount
+                font: Theme.desktopSubtitleFontObject
+            }
+            PropertyChanges {
+                target: principalLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+            PropertyChanges {
+                target: principalAmountLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+            PropertyChanges {
+                target: interestLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+            PropertyChanges {
+                target: interestAmountLabel
+                font: Theme.desktopSubtitleFontObject
+            }
+        },
+        State{
+            name: "mobileLayout"
+            when: Theme.isMobileLayout
+            PropertyChanges {
+                target: paymentBreakdownLabel
+                font: Theme.mobileTitleFontObject
+            }
+            PropertyChanges{
+                target: totalAmount
+                font: Theme.mobileTitleFontObject
+            }
+            PropertyChanges {
+                target: principalLabel
+                font: Theme.mobileTitleFontObject
+            }
+            PropertyChanges {
+                target: principalAmountLabel
+                font: Theme.mobileTitleFontObject
+            }
+            PropertyChanges {
+                target: interestLabel
+                font: Theme.mobileTitleFontObject
+            }
+            PropertyChanges {
+                target: interestAmountLabel
+                font: Theme.mobileTitleFontObject
+            }
+        },
+        State{
+            name: "smallLayout"
+            when: Theme.isSmallLayout
+            PropertyChanges{
+                target: paymentBreakdownLabel
+                font: Theme.smallTitleFontObject
+            }
+            PropertyChanges{
+                target: totalAmount
+                font: Theme.smallTitleFontObject
+            }
+            PropertyChanges {
+                target: principalLabel
+                font: Theme.smallTitleFontObject
+            }
+            PropertyChanges {
+                target: principalAmountLabel
+                font: Theme.smallTitleFontObject
+            }
+            PropertyChanges {
+                target: interestLabel
+                font: Theme.smallTitleFontObject
+            }
+            PropertyChanges {
+                target: interestAmountLabel
+                font: Theme.smallTitleFontObject
+            }
+        }
+
+    ]
 }

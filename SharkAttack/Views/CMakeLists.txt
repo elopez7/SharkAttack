@@ -28,6 +28,7 @@ qt_add_qml_module(viewsModule
         InputView.qml
         PaymentView.qml
         AppHeader.qml
+        SmallScreenView.qml
     SOURCES
 )
 

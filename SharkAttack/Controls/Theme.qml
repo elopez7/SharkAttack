@@ -35,12 +35,37 @@ QtObject {
     readonly property int spacingMedium: 32
     readonly property int spacingSmall: 16
 
-    readonly property var titleFontObject: {
+    readonly property var smallTitleFont: {
+        "family": "Roboto",
+        "weight": Font.Normal,
+        "italic": false,
+        "pixelSize": 14
+    }
+
+    readonly property var mobileTitleFont: {
+        "family": "Roboto",
+        "weight": Font.Normal,
+        "italic": false,
+        "pixelSize": 24
+    }
+
+    readonly property var desktopTitleFont: {
+        "family": "Roboto",
+        "weight": Font.Normal,
+        "italic": false,
+        "pixelSize": 48
+    }
+
+    readonly property var desktopSubtitleFont: {
         "family": "Roboto",
         "weight": Font.Normal,
         "italic": false,
         "pixelSize": 32
     }
-    readonly property font title: Qt.font(titleFontObject)
+
+    readonly property font smallTitleFontObject: Qt.font(smallTitleFont)
+    readonly property font mobileTitleFontObject: Qt.font(mobileTitleFont)
+    readonly property font desktopTitleFontObject: Qt.font(desktopTitleFont)
+    readonly property font desktopSubtitleFontObject: Qt.font(desktopSubtitleFont)
 
 }

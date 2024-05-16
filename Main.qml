@@ -1,4 +1,4 @@
-pragma Strict
+//pragma Strict
 import QtQml
 import QtQuick
 import QtQuick.Controls
@@ -11,8 +11,8 @@ ApplicationWindow {
 
     width: 1440
     height: 1080
-    minimumHeight: 500
-    minimumWidth: 250
+    minimumHeight: 512
+    minimumWidth: 512
     visible: true
     title: qsTr("Hello World")
 
@@ -74,15 +74,50 @@ ApplicationWindow {
                 LayoutItemProxy { target: monthlyPayments }
             }
 
-            SwipeView{
+            GridLayout{
                 id: l3
-                visible: false
+                Layout.preferredHeight: 4
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                spacing: 16
-                currentIndex: 0
-                InputView{}
-                PaymentView{}
+                columns: 1
+                visible: false
+                Item{
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    SwipeView {
+                        id: view
+                        currentIndex: pageIndicator.currentIndex
+                        anchors.fill: parent
+                        anchors.margins: 16
+                        spacing: 32
+                        clip: true
+
+                        Page {
+                            title: qsTr("Input")
+                            LayoutItemProxy{
+                                target: userInputs
+                                anchors.fill: parent
+                            }
+                        }
+                        Page {
+                            title: qsTr("Payment Breakdown")
+                            LayoutItemProxy{
+                                target: monthlyPayments
+                                anchors.fill: parent
+                            }
+                        }
+                    }
+
+                    PageIndicator {
+                        id: pageIndicator
+                        interactive: true
+                        count: view.count
+                        currentIndex: view.currentIndex
+
+                        anchors.bottom: parent.bottom
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                }
             }
         }
     }
@@ -121,23 +156,22 @@ ApplicationWindow {
         })
     }
 
-/*
     onWidthChanged: {
-        if (isBigDesktopLayout || isSmallDesktopLayout) {
-            l1.visible = true
-            l2.visible = false
-            l3.visible = false
-        } else if(isMobileLayout){
+        if (Theme.isBigDesktopLayout || Theme.isSmallDesktopLayout) {
             l1.visible = false
             l2.visible = true
             l3.visible = false
-        } else if(isSmallLayout){
+        } else if(Theme.isMobileLayout){
+            l1.visible = true
+            l2.visible = false
+            l3.visible = false
+        } else if(Theme.isSmallLayout){
             l1.visible = false
             l2.visible = false
             l3.visible = true
         }
     }
-*/
+
     function calculateLoan(){
         if(!userInputs.loanAmount || !userInputs.term || !userInputs.rate){
             return;
