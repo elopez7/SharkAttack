@@ -195,6 +195,10 @@ ApplicationWindow {
                     target: l3
                     visible: false
                 }
+                PropertyChanges{
+                    target: background
+                    anchors.margins: 16
+                }
             },
             State{
                 name: "smallLayout"

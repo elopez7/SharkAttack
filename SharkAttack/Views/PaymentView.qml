@@ -29,101 +29,49 @@ Item {
         Item{
             Layout.fillHeight: true
             Layout.fillWidth: true
-
-            RowLayout{
-                id:chartLayout
+            Layout.minimumHeight: 160
+            Layout.minimumWidth: 160
+            ChartView {
+                id: pie
+                backgroundColor: SystemTheme.popupColor
                 anchors.fill: parent
-                ChartView {
-                    id: pie
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    legend.visible: false
-                    backgroundColor: SystemTheme.popupColor
-                    PieSeries {
-                        name: "Monthly Payment"
-                        holeSize: 0.5
-                        PieSlice {
-                            id: principalSlice
-                            value: 13.5
-                            label: "Principal"
-                        }
-
-                        PieSlice {
-                            id: interestSlice
-                            value: 10.9
-                            label: "Interest"
-                        }
+                legend.labelColor: totalAmount.color
+                PieSeries {
+                    id: pieSeries
+                    name: "Monthly Payment"
+                    PieSlice {
+                        id: principalSlice
+                        value: 50.0
+                        label: qsTr("Principal: $" + principalValue.toFixed(2))
+                        labelPosition: PieSlice.LabelOutside
+                        labelVisible: true
+                        labelColor: totalAmount.color
                     }
 
-                    Label {
-                        id: totalAmount
-                        text: qsTr("$" + totalAmountValue.toFixed(2))
-                        anchors.fill: parent
-                        font: Theme.desktopSubtitleFontObject
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                    Behavior on backgroundColor {
-                        ColorAnimation {
-                            duration: 150
-                        }
+                    PieSlice {
+                        id: interestSlice
+                        value: 50.0
+                        label: qsTr("Interest: $"+interestValue.toFixed(2))
+                        labelPosition: PieSlice.LabelOutside
+                        labelVisible: true
+                        labelColor: totalAmount.color
                     }
                 }
-                Item{
-                    Layout.fillHeight: true
-                    Layout.fillWidth: true
-                    GridLayout{
-                        anchors.fill: parent
-                        anchors.topMargin: 64
-                        anchors.bottomMargin: 256
-                        rows: 2
-                        columns: 3
-                        Rectangle {
-                            id: legendPrincipalShape
-                            color: "#092d40"
-                            radius: 20
-                            Layout.minimumHeight: 32
-                            Layout.minimumWidth: 32
-                        }
-
-                        Label {
-                            id: principalLabel
-                            text: qsTr("Principal")
-                            font: Theme.desktopSubtitleFontObject
-                        }
-
-                        Label {
-                            id: principalAmountLabel
-                            text: qsTr("$" + principalValue.toFixed(2))
-                            font: Theme.desktopSubtitleFontObject
-                            horizontalAlignment: Text.AlignRight
-                            verticalAlignment: Text.AlignBottom
-                        }
-                        Rectangle {
-                            id: legendInterestShape
-                            color: "#209fdf"
-                            radius: 20
-                            Layout.minimumHeight: 32
-                            Layout.minimumWidth: 32
-                        }
-
-                        Label {
-                            id: interestLabel
-                            text: qsTr("Interest")
-                            font: Theme.mobileTitleFontObject
-                        }
-
-                        Label {
-                            id: interestAmountLabel
-                            text: qsTr("$"+interestValue.toFixed(2))
-                            font: Theme.desktopSubtitleFontObject
-                            horizontalAlignment: Text.AlignRight
-                            verticalAlignment: Text.AlignBottom
-                        }
+                Behavior on backgroundColor {
+                    ColorAnimation {
+                        duration: 150
                     }
                 }
             }
-
+        }
+        Label {
+            id: totalAmount
+            text: qsTr("Total: $" + totalAmountValue.toFixed(2))
+            Layout.fillWidth: true
+            Layout.bottomMargin: 32
+            font: Theme.desktopSubtitleFontObject
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
         }
     }
     states:[
@@ -138,22 +86,6 @@ Item {
                 target: totalAmount
                 font: Theme.desktopTitleFontObject
             }
-            PropertyChanges {
-                target: principalLabel
-                font: Theme.desktopSubtitleFontObject
-            }
-            PropertyChanges {
-                target: principalAmountLabel
-                font: Theme.desktopSubtitleFontObject
-            }
-            PropertyChanges {
-                target: interestLabel
-                font: Theme.desktopSubtitleFontObject
-            }
-            PropertyChanges {
-                target: interestAmountLabel
-                font: Theme.desktopSubtitleFontObject
-            }
         },
         State {
             name: "smallDesktopLayout"
@@ -164,22 +96,6 @@ Item {
             }
             PropertyChanges{
                 target: totalAmount
-                font: Theme.desktopSubtitleFontObject
-            }
-            PropertyChanges {
-                target: principalLabel
-                font: Theme.desktopSubtitleFontObject
-            }
-            PropertyChanges {
-                target: principalAmountLabel
-                font: Theme.desktopSubtitleFontObject
-            }
-            PropertyChanges {
-                target: interestLabel
-                font: Theme.desktopSubtitleFontObject
-            }
-            PropertyChanges {
-                target: interestAmountLabel
                 font: Theme.desktopSubtitleFontObject
             }
         },
@@ -194,22 +110,6 @@ Item {
                 target: totalAmount
                 font: Theme.mobileTitleFontObject
             }
-            PropertyChanges {
-                target: principalLabel
-                font: Theme.mobileTitleFontObject
-            }
-            PropertyChanges {
-                target: principalAmountLabel
-                font: Theme.mobileTitleFontObject
-            }
-            PropertyChanges {
-                target: interestLabel
-                font: Theme.mobileTitleFontObject
-            }
-            PropertyChanges {
-                target: interestAmountLabel
-                font: Theme.mobileTitleFontObject
-            }
         },
         State{
             name: "smallLayout"
@@ -222,23 +122,6 @@ Item {
                 target: totalAmount
                 font: Theme.smallTitleFontObject
             }
-            PropertyChanges {
-                target: principalLabel
-                font: Theme.smallTitleFontObject
-            }
-            PropertyChanges {
-                target: principalAmountLabel
-                font: Theme.smallTitleFontObject
-            }
-            PropertyChanges {
-                target: interestLabel
-                font: Theme.smallTitleFontObject
-            }
-            PropertyChanges {
-                target: interestAmountLabel
-                font: Theme.smallTitleFontObject
-            }
         }
-
     ]
 }

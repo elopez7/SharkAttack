@@ -39,28 +39,32 @@ QtObject {
         "family": "Roboto",
         "weight": Font.Normal,
         "italic": false,
-        "pixelSize": 14
+        "pixelSize": 14,
+        "weight": 700
     }
 
     readonly property var mobileTitleFont: {
         "family": "Roboto",
         "weight": Font.Normal,
         "italic": false,
-        "pixelSize": 24
+        "pixelSize": 24,
+        "weight": 600
     }
 
     readonly property var desktopTitleFont: {
         "family": "Roboto",
         "weight": Font.Normal,
         "italic": false,
-        "pixelSize": 48
+        "pixelSize": 48,
+        "weight": 600
     }
 
     readonly property var desktopSubtitleFont: {
         "family": "Roboto",
         "weight": Font.Normal,
         "italic": false,
-        "pixelSize": 32
+        "pixelSize": 32,
+        "weight": 600
     }
 
     readonly property font smallTitleFontObject: Qt.font(smallTitleFont)
